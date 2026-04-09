@@ -1,5 +1,6 @@
 const express = require('express');
 const connectDB = require('./src/config/db')
+const cors = require("cors")
 
 const jwt = require("jsonwebtoken")
 // const validateSignUpData = require('./src/utils/validation')
@@ -12,6 +13,7 @@ const User = require('./src/models/user');
 
 
 const app = express();
+app.use(cors({ origin: "http://localhost:5173", credentials: true }))
 app.use(express.json());
 app.use(cookieParser());
 
@@ -20,29 +22,6 @@ app.use(cookieParser());
 app.use("/", authRouter)
 app.use("/", profileRouter)
 app.use("/", requestRouter)
-
-// app.get("/profile", async (req, res) => {
-
-//     const cookies = req.cookies;
-//     try {
-
-//         const { token } = cookies;
-//         if (!token) {
-//             throw new Error("invalid token")
-//         }
-//         const decodeMessage = await jwt.verify(token, "charlie@dev2");
-//         const { _id } = decodeMessage;
-//         console.log("id", _id);
-//         const user = await User.findById(_id);
-
-//         if (!user) {
-//             throw new Error("user does not exist")
-//         }
-//         res.send(user);
-//     } catch (error) {
-//         res.status(401).send({ error: error.message })
-//     }
-// })
 
 connectDB().then(() => {
     console.log('DB connected')

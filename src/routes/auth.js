@@ -25,28 +25,28 @@ authRouter.post('/signup', async (req, res) => {
 
 authRouter.post('/login', async (req, res) => {
     const { email, password } = req.body;
+
     try {
         const user = await User.findOne({ email });
 
         if (!user) {
-            res.status(400).send('invalid credentials')
+            return res.status(400).send('invalid credentials')
         }
 
-        // const isPasswordValid = await bcrypt.compare(password, user.password);
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (isPasswordValid) {
 
             //token 
             let token = jwt.sign({ _id: user._id }, "charlie@dev2");
-            // console.log("token", token)
+
 
             // add the token to the cookie
             res.cookie("token", token, {
                 expires: new Date(Date.now() + 8 * 3600000),
             })
 
-            res.send("login successfully")
+            res.send(user)
 
         } else {
             res.send("invalid user")
@@ -54,7 +54,7 @@ authRouter.post('/login', async (req, res) => {
 
     } catch (error) {
         console.log("error" + error)
-        res.status(500).json({ msg: 'server error' })
+        return res.status(500).json({ msg: 'server error' })
     }
 })
 
