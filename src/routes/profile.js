@@ -4,7 +4,7 @@ const profileRouter = express.Router();
 const userAuth = require("../middleware/auth")
 const { validateEditProfiledata } = require("../utils/validation")
 
-profileRouter.get("/profile", userAuth, async (req, res) => {
+profileRouter.get("/profile/view", userAuth, async (req, res) => {
     try {
         const user = req.user;
         res.send(user);
@@ -30,9 +30,10 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
 
         res.json({ message: `${loggedInUser.firstName}, your profile edit successfully`, data: loggedInUser })
     } catch (error) {
-        res.status(400).send("ERROR", error.message)
+        res.status(400).send("ERROR :" + error.message)
     }
 })
+
 profileRouter.patch("profile/password", (req, res) => {
 
 })

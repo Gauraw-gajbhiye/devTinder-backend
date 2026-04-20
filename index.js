@@ -7,6 +7,8 @@ const jwt = require("jsonwebtoken")
 const authRouter = require("./src/routes/auth")
 const profileRouter = require("./src/routes/profile")
 const requestRouter = require("./src/routes/request")
+const userRouter = require('./src/routes/user');
+
 
 const cookieParser = require("cookie-parser");
 const User = require('./src/models/user');
@@ -22,6 +24,7 @@ app.use(cookieParser());
 app.use("/", authRouter)
 app.use("/", profileRouter)
 app.use("/", requestRouter)
+app.use("/", userRouter)
 
 connectDB().then(() => {
     console.log('DB connected')
