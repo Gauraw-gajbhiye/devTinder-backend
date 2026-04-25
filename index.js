@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const connectDB = require('./src/config/db')
 const cors = require("cors")
@@ -29,7 +30,7 @@ app.use("/", userRouter)
 connectDB().then(() => {
     console.log('DB connected')
 
-    app.listen(4001, (req, res) => {
+    app.listen(process.env.PORT, (req, res) => {
         console.log(`Running on port 4001`)
     })
 
